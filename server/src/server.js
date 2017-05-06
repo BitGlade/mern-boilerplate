@@ -14,12 +14,12 @@ var path = require('path')
 
 // config
 var cfg = require('./config.json')
-var public_dir = path.resolve(cfg.public_dir)
 var args = require('./args')
 process.env.NODE_ENV = args.env
 var port = args.port
 
 // modules
+var routing = require('./route')
 var api = require('./api')
 
 
@@ -42,12 +42,8 @@ app.use(morgan(logging_format))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
-// static public assets
-app.use('/', express.static(public_dir))
-
-
-app.use('/api', api)
-
+// routing
+app.use(routing)
 
 
 

@@ -7,7 +7,9 @@
     "concurrently": "^3.4.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "concurrently 'cd client & npm run test' 'cd server & npm run test'",
+    "web": "cd server & npm run web",
+    "build-client": "cd client & npm run build"
   },
   "author": "BitGlade, LLC",
   "license": "ISC"
