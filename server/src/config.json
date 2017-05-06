@@ -1,5 +1,5 @@
 {
-    "public_dir": "../../client/build/",
+    "public_dir": "../client/build/",
     "run": {
         "test": {
             "port": 3001,

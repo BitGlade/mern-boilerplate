@@ -9,12 +9,15 @@ var morgan = require('morgan')
 var chalk = require('chalk')
 var bodyParser = require('body-parser')
 var compression = require('compression')
+var http = require('http')
+var path = require('path')
 
 // config
 var cfg = require('./config.json')
-var public_dir = cfg.public_dir
+var public_dir = path.resolve(cfg.public_dir)
 var args = require('./args')
 process.env.NODE_ENV = args.env
+var port = args.port
 
 // modules
 var api = require('./api')
@@ -52,5 +55,6 @@ app.use('/api', api)
 
 
 
-
-app.listen()
+http.createServer(app).listen(port, function() {
+    console.log('[HTTP] Server running on port %s!', chalk.yellow(port))
+})
