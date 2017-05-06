@@ -1,0 +1,24 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "nodemon src/server.js --mode test",
+    "web": "pm2 start src/server.js --name=boilermern -i max -- --mode web"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.17.1",
+    "chalk": "1.1.3",
+    "compression": "^1.6.2",
+    "express": "4.15.2",
+    "helmet": "3.6.0",
+    "minimist": "^1.2.0",
+    "mongoose": "4.9.7",
+    "morgan": "1.8.1",
+    "nodemailer": "^4.0.1"
+  }
+}

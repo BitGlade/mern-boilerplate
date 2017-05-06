@@ -1,0 +1,6 @@
+body .ui h1 {
+  color: blue;
+}
+#app > h1 {
+  font-size: 60px;
+}

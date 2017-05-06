@@ -1,0 +1,19 @@
+# client
+client/build/
+client/node_modules/
+
+client/coverage/
+client/.DS_Store
+client/.env
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
+
+# server
+server/node_modules/
+server/auth.json
+
+
+# misc
+nbproject/
+

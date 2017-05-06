@@ -1,0 +1,16 @@
+{
+    "public_dir": "../../client/build/",
+    "run": {
+        "test": {
+            "port": 3001,
+            "env": "development",
+            "db": "mongodb://localhost/boiler-site-test"
+        },
+        "web": {
+            "port": 80,
+            "env": "production",
+            "db": "mongodb://localhost/boiler-site"
+        }
+    }
+        
+}

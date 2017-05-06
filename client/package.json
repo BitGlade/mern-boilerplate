@@ -1,0 +1,26 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.16.1",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-router-dom": "^4.1.1",
+    "semantic-ui-css": "^2.2.10",
+    "semantic-ui-react": "^0.68.2"
+  },
+  "devDependencies": {
+    "chokidar-cli": "^1.2.0",
+    "less": "^2.7.2",
+    "react-scripts": "0.9.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "build-less": "lessc src/style/style.less src/style/style.css",
+    "watch-less": "chokidar src/less/*.less src/style/style.less -c \"npm run build-less\""
+  }
+}
