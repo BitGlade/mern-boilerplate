@@ -1,5 +1,8 @@
-body .ui h1 {
-  color: blue;
+body {
+  background-color: skyblue;
+}
+body .ui .menu {
+  background-color: dodgerblue;
 }
 #app > h1 {
   font-size: 60px;
