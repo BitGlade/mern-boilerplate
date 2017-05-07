@@ -22,8 +22,8 @@ var port = args.port
 var routing = require('./route')
 var api = require('./api')
 
-
-
+// database initialization
+require('./database')
 
 //  //////////  //
 //  MIDDLEWARE  //

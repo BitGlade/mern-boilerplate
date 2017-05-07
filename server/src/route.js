@@ -4,7 +4,6 @@
  * route.js: Main Routing File
  */
 
-
 // imports
 var express = require('express')
 var path = require('path')
@@ -38,8 +37,9 @@ router.use('/', express.static(public_dir))
 router.use('/api', api)
 
 /* 4 - Other routes */
-router.post('/login', formLogin)
-router.post('/register', formRegister)
+router.post('/login', session.formLogin)
+router.post('/logout', session.logOut)
+router.post('/register', printCheck, session.formRegister)
 
 /* 5 - Error Handling : 404 */
 router.use(function(req, res, next) {
@@ -51,32 +51,17 @@ router.use(function(req, res, next) {
 /* 6 - Error Handling (Master) */
 router.use(function(req, res, next, err) {
     if (err.status === 404) {
-        res.redirect('/')
+        return res.redirect('/')
     } else {
-        logger.error(err.message)
+        console.error('UNHANDLED ERROR:')
+        return console.error(err.message)
     }
 })
 
-// middleware: login via form-/req.body-based submission
-function formLogin(req, res, next) {
-    session.attemptLogin(req.body.email, req.body.password, req, res)
+function printCheck(req,res,next) {
+    //console.log(req)
+    return next()
 }
-
-// middleware: register via form-/req.body-based submission
-function formRegister(req, res, next) {
-    var rb = req.body
-    if (rb.password && rb.confirmPassword) {
-        if (rb.password === rb.confirmPassword) {
-            session.attemptRegister(rb.email, rb.password, rb.firstName, rb.lastName, req, res)
-        } else {
-            res.json({err:true, message: "Passwords must match."})
-        }
-    } else {
-        res.json({err:true, message: "Enter password & confirm password"})
-    }
-}
-
-
 
 
 

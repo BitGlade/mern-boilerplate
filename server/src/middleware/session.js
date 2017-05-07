@@ -12,6 +12,7 @@ var logger = require('../logger')
 var util = require('../util')
 
 var isDef = util.isDef
+var backHome = util.backHome
 var MongoStore = connectMongo(session)
 
 var User = require('../model/User')
@@ -25,17 +26,6 @@ var init = session({
     resave: true,
     store: new MongoStore({ mongooseConnection: mongoose.connection })
 })
-
-
-/*
- * Redirect to home page (common operation for requires** function)
- */
-
-function backHome(res) {
-    res.redirect('/')
-}
-
-
 /*
  * User session/login checks
  */
@@ -49,7 +39,7 @@ function requiresLogin(req, res, next) {
     if (isLoggedIn(req)) {
         return next()
     } else {
-        backHome(res)
+        return backHome(res)
     }
 }
 
@@ -60,19 +50,19 @@ function requiresLogin(req, res, next) {
 function attemptLogin(email, password, req, res) {
     if (isDef(email) && isDef(password)) {
         // validating email & password
-        User.authenticate(email, password, function(userError, user) {
-            if(userError) {
-                return res.json({err: true, message: userError})
+        User.authenticate(email, password, function(err, user) {
+            if(err) {
+                return res.json({err: true, message: err.message})
             } else if (!user) {
                 return res.json({err: true, message: "User not found."})
             } else {
                 // Valid login.  Linking user ID to session
                 req.session.userId = user._id
-                return res.json({err: false, message: null})
+                return res.json({err: false, message: "Login success."})
             }
         })
     } else {
-        res.json({err: true, message: "Need email and password."})
+        return res.json({err: true, message: "Need email and password."})
     }
 }
 
@@ -83,10 +73,10 @@ function logOut(req, res, next) {
             if (err) {
                 return next(err)
             }
-            backHome(res)
+            return backHome(res)
         })
     } else {
-        backHome(res)
+        return backHome(res)
     }
 }
 
@@ -108,11 +98,11 @@ function requiresAdmin(req, res, next) {
             if (isAdmin(user)) {
                 return next()
             } else {
-                backHome(res)
+                return backHome(res)
             }
         })
     } else {
-        backHome(res)
+        return backHome(res)
     }
 
 }
@@ -122,22 +112,49 @@ function requiresAdmin(req, res, next) {
  * Response to client: {err: bool, message: String}
  */
 function attemptRegister(email, password, firstName, lastName, req, res) {
-    User.register(email, password, firstName, lastName, function(userError, user) {
-        if (userError) {
-            res.json({err: true, message: userError})
+    User.register(email, password, firstName, lastName, function(err, user) {
+        if (err) {
+            return res.json({err: true, message: err.message})
         } else {
             req.session.userId = user._id
-            backHome(res)
+            return backHome(res)
         }
     })
 }
 
+/*
+ * Form Operations
+ */
+
+// middleware: login via form-/req.body-based submission
+function formLogin(req, res, next) {
+    return attemptLogin(req.body.email, req.body.password, req, res)
+}
+
+// middleware: register via form-/req.body-based submission
+function formRegister(req, res, next) {
+    var rb = req.body
+    if (rb.password && rb.confirmPassword) {
+        if (rb.password === rb.confirmPassword) {
+            return attemptRegister(rb.email, rb.password, rb.firstName, rb.lastName, req, res)
+        } else {
+            return res.json({err:true, message: "Passwords must match."})
+        }
+    } else {
+        return res.json({err:true, message: "Enter password & confirm password"})
+    }
+}
+
+
 module.exports = {
     init: init,
+    logOut: logOut,
     isLoggedIn: isLoggedIn,
     requiresLogin: requiresLogin,
     attemptLogin: attemptLogin,
     isAdmin: isAdmin,
     requiresAdmin: requiresAdmin,
-    attemptRegister: attemptRegister
+    attemptRegister: attemptRegister,
+    formLogin: formLogin,
+    formRegister: formRegister
 }

@@ -11,10 +11,10 @@ mongoose.connect(db, connect_check)
 
 function connect_check(err) {
     if (err) {
-        var failed_msg = '%s to Mongo! [db: %s]' % chalk.red('Failed to connect'), db
-        logger.error(failed_msg)
+        //var failed_msg = '%s to Mongo! [db: %s]' % chalk.red('Failed to connect'), db
+        console.error('%s to Mongo! [db: %s]', chalk.red('Failed to connect'), db)
     } else {
-        var success_msg = '%s to Mongo! [db: %s]' % chalk.green('Successfully connected'), db
-        console.log(success_msg)
+        //var success_msg = '%s to Mongo! [db: %s]' % chalk.green('Successfully connected'), db
+        console.log('%s to Mongo! [db: %s]', chalk.green('Successfully connected'), db)
     }
 }

@@ -51,7 +51,7 @@ var schemaJSON = {
 
 }
 
-var Schema = mongoose.Schema(schemaJSON)
+var Schema = new mongoose.Schema(schemaJSON)
 
 
 // Schema mods
@@ -64,6 +64,7 @@ Schema.pre('save', function(next) {
         }
         // stores hashed version of user password
         user.password = hash
+        next()
     })
 })
 
@@ -76,16 +77,22 @@ Schema.statics.authenticate = function(email, password, callback) {
     this.findOne({email: email}, function(err, user) {
         if (err) {
             // mongo find error
-            return next(err)
+            return callback(err)
+        } else if (!user) {
+            var err = new Error('User not found.');
+            err.status = 401;
+            return callback(err)
         }
 
         bcrypt.compare(password, user.password, function(err, isMatching) {
             if (err) {
                 // bcrypt error
-                return next(err)
+                return callback(err)
             } else if (!isMatching) {
                 // invalid password
-                return callback('Invalid email or password', null)
+                var err = new Error('Invalid email or password')
+                err.status = 401;
+                return callback(err, null)
             } else {
                 // valid password
                 return callback(null, user)
@@ -105,13 +112,19 @@ Schema.statics.register = function(email, password, firstName, lastName, callbac
         firstName: firstName,
         lastName: lastName
     }
+    console.log('mongoReg')
     this.create(userData, function(err, user) {
         if (err) {
-            return callback('User already exists', null)
+            console.log('mongoError')
+            var err = new Error('User already exists')
+            err.status = 401
+            return callback(err, null)
         }
+        console.log('mongoSuccess')
         return callback(null, user)
     })
 }
+
 
 // Model declaration
 var Model = mongoose.model(name, Schema)
