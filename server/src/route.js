@@ -57,7 +57,8 @@ router.use(function(req, res, next, err) {
         return res.redirect('/')
     } else {
         console.error('UNHANDLED ERROR:')
-        return console.error(err.message)
+        console.error(err.message)
+        return res.redirect('/')
     }
 })
 
