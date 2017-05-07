@@ -36,10 +36,12 @@ router.use('/', express.static(public_dir))
 /* 3 - API */
 router.use('/api', api)
 
+
 /* 4 - Other routes */
 router.post('/login', session.formLogin)
 router.post('/logout', session.logOut)
-router.post('/register', printCheck, session.formRegister)
+router.post('/register', session.formRegister)
+
 
 /* 5 - Error Handling : 404 */
 router.use(function(req, res, next) {
@@ -47,6 +49,7 @@ router.use(function(req, res, next) {
   err.status = 404;
   return next(err)
 });
+
 
 /* 6 - Error Handling (Master) */
 router.use(function(req, res, next, err) {
@@ -57,13 +60,6 @@ router.use(function(req, res, next, err) {
         return console.error(err.message)
     }
 })
-
-function printCheck(req,res,next) {
-    //console.log(req)
-    return next()
-}
-
-
 
 
 
