@@ -1,8 +1,8 @@
 {
   "name": "boiler-mern",
   "version": "1.0.0",
-  "description": "MERN Boilerplate.  Property of BitGlade, LLC.",
-  "main": "index.js",
+  "description": "MERN Boilerplate, by BitGlade, LLC.",
+  "main": "server/src/server.js",
   "devDependencies": {
     "concurrently": "^3.4.0"
   },
@@ -12,5 +12,5 @@
     "build-client": "cd client & npm run build"
   },
   "author": "BitGlade, LLC",
-  "license": "ISC"
+  "license": "BSD-3-Clause"
 }
