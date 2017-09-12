@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "mern-boilerplate-server",
   "version": "1.0.0",
   "description": "",
   "main": "src/server.js",
@@ -7,8 +7,8 @@
     "test": "nodemon src/server.js --mode test",
     "web": "pm2 start src/server.js --name=boilermern -i max -- --mode web"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "BitGlade, LLC",
+  "license": "BSD-3-Clause",
   "dependencies": {
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.1",

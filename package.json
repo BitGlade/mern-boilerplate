@@ -1,5 +1,5 @@
 {
-  "name": "boiler-mern",
+  "name": "mern-boilerplate",
   "version": "1.0.0",
   "description": "MERN Boilerplate, by BitGlade, LLC.",
   "main": "server/src/server.js",
